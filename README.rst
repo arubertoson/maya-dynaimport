@@ -24,7 +24,7 @@ pref folder:
 
 If you already have a userSetup.py in use just add these lines:
 
-..code-block: python
+..code-block:: python
 
     import mdynaimport
     mdynaimport.parse_paths()
@@ -60,7 +60,7 @@ Custom Paths
 To add custom paths you will need to have an environment variable with your
 custom paths added to. At the top of mdynaimport you will see two variables:
 
-..code-block: python
+..code-block:: python
 
     32 PYENV = 'PYROOT'
     33 MELENV = 'MELROOT'
