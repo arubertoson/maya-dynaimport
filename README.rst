@@ -16,6 +16,15 @@ Put **mdynaimport.py** in a script directory already on mayas PYTHONPATH. For
 convenience I place it in: ``c:\users\<username>\Documents\maya\script``.
 This ensures that it will just work for all different maya versions.
 
+Then you just place the **userSetup.py** in the directory you want to
+dynamically import. If you already have a userSetup in place just add the
+below code to it:
+
+.. code:: python
+
+    import mdynaimport
+    mdynaimport.parse_paths()
+
 
 Usage
 -----
