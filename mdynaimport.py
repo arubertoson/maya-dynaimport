@@ -14,6 +14,11 @@
         >>> import mdynaimport
         >>> mdynaimport.parse_paths()
 
+    TODO:
+
+        - check files in given folders to determine if they are mel/python or
+        both.
+
 """
 import os
 import site
