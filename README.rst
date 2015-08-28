@@ -2,36 +2,26 @@
 Maya Dynamic Import
 ===================
 
-mdynaimport is a Maya dynamic importer.
+I was tired of constantly having to manage my paths when creating directory
+structures for my scripts. This frustration inspired **mdynaimport**.
 
-Most third party scripts comes with it's own separate folder structure, I
-was tired of constantly having to check that my paths were in order. This
-motivated me to create a script that updates search paths dynamically.
-
-mdynaimport allows you to drag and drop your scripts into your script
-structure and it should just work.
+**mdynaimport** dynamically import all paths it finds from given starting
+point. It support both python and mel paths.
 
 
 Installation
 ------------
 
-Put mdynaimport.py and userSetup.py in the topmost folder you want to
-dynamically import. I use the topmost script folder in Maya's default
-pref folder: ``c:\users\<username>\Documents\maya\script``
-
-If you already have a userSetup.py in use just add these lines:
-
-.. code:: python
-
-    import mdynaimport
-    mdynaimport.parse_paths()
+Put **mdynaimport.py** in a script directory already on maya PYTHONPATH. For
+convenience I place it in: ``c:\users\<username>\Documents\maya\script``.
+This ensures that it will just work for all different maya versions.
 
 
 Usage
 -----
 
-To get the most out of mdynaimport its preferred that you have a directory
-named "mel" in the same directory as the userSetup.py is:
+I prefer not to mix mel and python scripts, to keep it clear and easy to
+find I use a file structure as bellow:
 
 ::
 
@@ -42,25 +32,33 @@ named "mel" in the same directory as the userSetup.py is:
         mdynaimport.py
 
 
-This will let mdynaimport look through the MEL directory and add all found
-folders to the ``MAYA_SCRIPT_PATH`` environment. The rest of the found
-directories will be added to sys.path in maya.
+This will let **mdynaimport** separate the mel paths from the python paths.
 
 Now you can create your own folder structure without having to manage path
 control. Just add a userSetup.py that runs mdynaimport in the topmost
 directory.
 
 
-Custom Paths
-------------
+Custom Paths, Ignore patterns and Icons
+---------------------------------------
 
-To add custom paths you will need to have created an environment variable with
-your paths added to it. At the top of mdynaimport you will see two variables:
+Close to the top in the **mdynaimport.py** file you will find these variables:
 
 .. code:: python
 
+    # Custom paths
     PYENV = 'PYROOT'
     MELENV = 'MELROOT'
 
-Just swap the values for whatever your environment name is to have those paths
-added to the sys.path aswell.
+    # Include patterns to ignore here.
+    EXCLUDE_PATTERNS = ('__', '.')
+    ICONS = ('icon', 'icons')
+
+To add custom paths you will need to have created an environment variable with
+your paths added to it. Then replace `PYENV` and `MELENV` values with your
+own environment names.
+
+`EXCLUDE_PATTERNS` patterns is a tuple containing directory name patterns to
+ignore. `ICONS` represents directory names that contains icons to be placed
+in Mayas `XBMLANGPATH`.
+
