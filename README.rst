@@ -35,9 +35,9 @@ named "mel" in the same directory as the userSetup.py is:
 
 ::
 
-    > scripts
-        > MEL
-        > PYTHON
+    scripts\
+        MEL\
+        PYTHON\
         userSetup.py
         mdynaimport.py
 
@@ -54,13 +54,13 @@ directory.
 Custom Paths
 ------------
 
-To add custom paths you will need to have an environment variable with your
-custom paths added to. At the top of mdynaimport you will see two variables:
+To add custom paths you will need to have created an environment variable with
+your paths added to it. At the top of mdynaimport you will see two variables:
 
 .. code:: python
 
     PYENV = 'PYROOT'
     MELENV = 'MELROOT'
 
-Just change the values to your custom path, or create an environment with the
-variable names and your are good to go.
+Just swap the values for whatever your environment name is to have those paths
+added to the sys.path aswell.
