@@ -14,39 +14,56 @@ structure and it should just work.
 Installation
 ------------
 
-To install mdynaimport, simply put mdynaimport.py in a folder on your mayas
-PYTHONPATH... Any default script directory will do. Then simply put this block
-of code into a userSetup.py in the folders you wish to dynamically import:
+Put mdynaimport.py and userSetup.py in the topmost folder you want to
+dynamically import. I use the topmost script folder in Maya's default
+pref folder:
 
-..code-block:: python
+..
+    c:\users\<username>\Documents\maya\script
+
+
+If you already have a userSetup.py in use just add these lines:
+
+..code-block: python
 
     import mdynaimport
     mdynaimport.parse_paths()
-    ...
 
-For convenience I place mdynaimport.py into the topmost scriptfolder in the
-default maya preference path. usually:
 
-..code-block:: bash
+Usage
+-----
 
-    c:\users\<username>\Documents\maya\script
-    ...
+To get the most out of mdynaimport its preferred that you have a directory
+named "mel" in the same directory as the userSetup.py is:
 
-This is the preferred way the folder structure should look where you want
-mdynaimport to operate.
+..
 
-..code-block:: bash
-
-    script/
-        MEL/
-        PYTHON/
+    scripts\
+        MEL\
+        PYTHON\
         userSetup.py
         mdynaimport.py
-    ...
 
-That allows me to just drag and drop scripts/script-dir straight into
-the folders without additional setup.
 
-If you spread out your scripts over several folders just have a
-userSetup.py in each and add the above lines. The mdynaimport.py only
-needs to exist in one of the folders for you to have access to it.
+This will let mdynaimport look through the MEL directory and add all found
+folders to the MAYA_SCRIPT_PATH environment. The rest of the found directories
+will be added to sys.path in maya.
+
+Now you can create your own folder structure without having to manage path
+control. Just add a userSetup.py that runs mdynaimport in the topmost
+directory.
+
+
+Custom Paths
+------------
+
+To add custom paths you will need to have an environment variable with your
+custom paths added to. At the top of mdynaimport you will see two variables:
+
+..code-block: python
+
+    32 PYENV = 'PYROOT'
+    33 MELENV = 'MELROOT'
+
+Just change the values to your custom path, or create an environment with the
+variable names and your are good to go.
