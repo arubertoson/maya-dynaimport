@@ -43,9 +43,9 @@ find I use a file structure as bellow:
 
 This will let mdynaimport separate the mel paths from the python paths.
 
-Now you can create your own folder structure without having to manage path
-control. Just add a userSetup.py that runs mdynaimport in the topmost
-directory.
+This is **optional**, mdynaimport will determine what kind of path it is by
+looking at available extensions in a directory. This is just how I prefer to
+have it setup.
 
 
 Custom Paths, Ignore patterns and Icons
