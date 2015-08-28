@@ -3,16 +3,16 @@ Maya Dynamic Import
 ===================
 
 I was tired of constantly having to manage my paths when creating directory
-structures for my scripts. This frustration inspired **mdynaimport**.
+structures for my scripts. This frustration inspired *mdynaimport*.
 
-**mdynaimport** dynamically import all paths it finds from given starting
+mdynaimport dynamically import all paths it finds from given starting
 point. It support both python and mel paths.
 
 
 Installation
 ------------
 
-Put **mdynaimport.py** in a script directory already on maya PYTHONPATH. For
+Put **mdynaimport.py** in a script directory already on mayas PYTHONPATH. For
 convenience I place it in: ``c:\users\<username>\Documents\maya\script``.
 This ensures that it will just work for all different maya versions.
 
@@ -32,7 +32,7 @@ find I use a file structure as bellow:
         mdynaimport.py
 
 
-This will let **mdynaimport** separate the mel paths from the python paths.
+This will let mdynaimport separate the mel paths from the python paths.
 
 Now you can create your own folder structure without having to manage path
 control. Just add a userSetup.py that runs mdynaimport in the topmost
@@ -55,10 +55,10 @@ Close to the top in the **mdynaimport.py** file you will find these variables:
     ICONS = ('icon', 'icons')
 
 To add custom paths you will need to have created an environment variable with
-your paths added to it. Then replace `PYENV` and `MELENV` values with your
+your paths added to it. Then replace PYENV and MELENV values with your
 own environment names.
 
-`EXCLUDE_PATTERNS` patterns is a tuple containing directory name patterns to
-ignore. `ICONS` represents directory names that contains icons to be placed
-in Mayas `XBMLANGPATH`.
+EXCLUDE_PATTERNS patterns is a tuple containing directory name patterns to
+ignore. ICONS represents directory names that contains icons to be placed
+in Mayas XBMLANGPATH.
 
