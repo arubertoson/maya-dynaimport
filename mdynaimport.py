@@ -5,24 +5,25 @@
     ~~~~~~~~~~~~~~
 
     Was tired of not being able to create a custom directory structure
-    without having to constantly fiddle with paths. With mdynaimport in
-    a scriptdirectory maya can see just put a userSetup.py in the topmost
-    directory and add the below lines.
+    without having to constantly fiddle with paths.
+
+    With mdynaimport in a maya PYTHONPATH just run through a userSetup.py
+    to have the dir dynamically import paths.
+
 
     USAGE::
 
         >>> import mdynaimport
         >>> mdynaimport.parse_paths()
 
-    TODO:
-
-        - check files in given folders to determine if they are mel/python or
-        both.
-
 """
 import os
 import site
+import logging
 import collections
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
 
 
 __title__ = 'mdynaimport'
@@ -50,58 +51,60 @@ def parse_paths():
     """
     sources = get_source_paths()
     results = collections.defaultdict(list)
-    for source_type, paths in sources.iteritems():
+    for root_dir in sources:
 
-        for p in paths:
-            subdirs = walkdirs(p)
-            for dir in subdirs:
-                print(dir)
+        for script_type, dirs in walkdirs(root_dir).iteritems():
+
+            for d in dirs:
+                logger.debug(d)
+
                 # Add paths to environments
-                if os.path.basename(dir).lower().startswith(ICONS):
-                    results['XBMLANGPATH'].append(dir)
-                    os.environ['XBMLANGPATH'] += os.pathsep + dir
+                if os.path.basename(d).lower().startswith(ICONS):
+                    results['XBMLANGPATH'].append(d)
+                    os.environ['XBMLANGPATH'] += os.pathsep + d
 
-                if source_type == 'MEL':
-                    results['MAYA_SCRIPT_PATH'].append(dir)
-                    os.environ['MAYA_SCRIPT_PATH'] += os.pathsep + dir
+                if script_type == 'mel':
+                    results['MAYA_SCRIPT_PATH'].append(d)
+                    os.environ['MAYA_SCRIPT_PATH'] += os.pathsep + d
                 else:
-                    results['PYTHONPATH'].append(dir)
-                    site.addsitedir(dir)
+                    results['PYTHONPATH'].append(d)
+                    site.addsitedir(d)
     return results
 
 
 def walkdirs(root):
     """
-    Returns generator with all subdirs excluding given patterns and python
-    packages.
+    Returns defaultdict with script type / paths mapping, excluding given
+    patterns and python packages.
     """
+    scriptype_paths = collections.defaultdict(list)
     for root, subdirs, files in os.walk(root):
         subdirs[:] = [
             d for d in subdirs
             if not d.startswith(EXCLUDE_PATTERNS)
             if '__init__.py' not in os.listdir(os.path.join(root, d))
         ]
-        yield root
+
+        if [f for f in files if f.endswith('.py')]:
+            scriptype_paths['python'].append(root)
+        if [f for f in files if f.endswith('.mel')]:
+            scriptype_paths['mel'].append(root)
+    return scriptype_paths
 
 
 def get_source_paths():
     """
     Return valid paths from __file__ dir, PYENV and MELENV.
     """
-    script_paths = collections.defaultdict(set)
-
-    pyenv = filter(None, os.environ.get(PYENV).split(os.pathsep))
-    melenv = filter(None, os.environ.get('PYROOT').split(os.pathsep))
-    script_paths['python'].update(pyenv)
-    script_paths['mel'].update(melenv)
+    script_paths = set()
+    script_paths.update(filter(None, os.environ.get(PYENV).split(os.pathsep)))
+    script_paths.update(None, os.environ.get('PYROOT').split(os.pathsep))
 
     cwd = os.path.dirname(os.path.abspath(__file__))
-    for p in os.listdir(cwd):
-        if not os.path.isdir(p):
+    for each in os.listdir(cwd):
+        path = os.path.join(cwd, each)
+        if not os.path.isdir(path) or each.startswith(EXCLUDE_PATTERNS):
             continue
+        script_paths.add(path)
 
-        if os.path.basename(p).lower().startswith('mel'):
-            script_paths['mel'].append(p)
-        else:
-            script_paths['python'].append(p)
     return script_paths
