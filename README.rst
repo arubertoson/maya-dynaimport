@@ -17,10 +17,7 @@ Installation
 
 Put mdynaimport.py and userSetup.py in the topmost folder you want to
 dynamically import. I use the topmost script folder in Maya's default
-pref folder:
-
-    c:\users\<username>\Documents\maya\script
-
+pref folder ``c:\users\<username>\Documents\maya\script``
 
 If you already have a userSetup.py in use just add these lines:
 
@@ -37,16 +34,16 @@ To get the most out of mdynaimport its preferred that you have a directory
 named "mel" in the same directory as the userSetup.py is:
 
 
-    \\scripts
-        \\MEL
-        \\PYTHON
+    scripts
+        MEL
+        PYTHON
         userSetup.py
         mdynaimport.py
 
 
 This will let mdynaimport look through the MEL directory and add all found
-folders to the MAYA_SCRIPT_PATH environment. The rest of the found directories
-will be added to sys.path in maya.
+folders to the ``MAYA_SCRIPT_PATH`` environment. The rest of the found
+directories will be added to sys.path in maya.
 
 Now you can create your own folder structure without having to manage path
 control. Just add a userSetup.py that runs mdynaimport in the topmost
@@ -59,7 +56,7 @@ Custom Paths
 To add custom paths you will need to have an environment variable with your
 custom paths added to. At the top of mdynaimport you will see two variables:
 
-..code-block:: python
+.. code:: python
 PYENV = 'PYROOT'
 MELENV = 'MELROOT'
 
