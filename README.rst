@@ -61,9 +61,12 @@ To add custom paths you will need to have an environment variable with your
 custom paths added to. At the top of mdynaimport you will see two variables:
 
 ```python
-
-    32 PYENV = 'PYROOT'
-    33 MELENV = 'MELROOT'
+PYENV = 'PYROOT'
+MELENV = 'MELROOT'
+```
+```python
+s = "Python syntax highlighting"
+print s
 ```
 Just change the values to your custom path, or create an environment with the
 variable names and your are good to go.
