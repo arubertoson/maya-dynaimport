@@ -37,9 +37,9 @@ To get the most out of mdynaimport its preferred that you have a directory
 named "mel" in the same directory as the userSetup.py is:
 
 
-    scripts\
-        MEL\
-        PYTHON\
+    \\scripts
+        \\MEL
+        \\PYTHON
         userSetup.py
         mdynaimport.py
 
