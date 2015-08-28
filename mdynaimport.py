@@ -29,6 +29,7 @@ __license__ = 'MIT'
 __description__ = 'Dynamically import script paths to maya.'
 
 
+# Custom paths
 PYENV = 'PYROOT'
 MELENV = 'MELROOT'
 
