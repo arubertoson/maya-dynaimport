@@ -1,9 +1,4 @@
-# -*- coding: utf-8 -*-
-
 """
-    mdynaimport.py
-    ~~~~~~~~~~~~~~
-
     Was tired of not being able to create a custom directory structure
     without having to constantly fiddle with paths.
 
@@ -39,7 +34,7 @@ __description__ = 'Dynamically import script paths to maya.'
 PYENV = 'PYROOT'
 MELENV = 'MELROOT'
 
-# Include patterns to ignore here.
+# Include search patterns here.
 EXCLUDE_PATTERNS = ('__', '.')
 ICONS = ('icon', 'icons')
 
@@ -85,11 +80,19 @@ def walkdirs(root):
             if '__init__.py' not in os.listdir(os.path.join(root, d))
         ]
 
-        if [f for f in files if f.endswith('.py')]:
+        if ext_exists('.py', files):
             scriptype_paths['python'].append(root)
-        if [f for f in files if f.endswith('.mel')]:
+        if ext_exists('.mel', files):
             scriptype_paths['mel'].append(root)
     return scriptype_paths
+
+
+def ext_exists(ext, files):
+    for f in files:
+        if f.endswith(ext):
+            return True
+    else:
+        return False
 
 
 def get_source_paths():
@@ -98,7 +101,7 @@ def get_source_paths():
     """
     script_paths = set()
     script_paths.update(filter(None, os.environ.get(PYENV).split(os.pathsep)))
-    script_paths.update(None, os.environ.get('PYROOT').split(os.pathsep))
+    script_paths.update(filter(None, os.environ.get(MELENV).split(os.pathsep)))
 
     cwd = os.path.dirname(os.path.abspath(__file__))
     for each in os.listdir(cwd):
