@@ -72,18 +72,25 @@ def walkdirs(root):
     Returns defaultdict with script type / paths mapping, excluding given
     patterns and python packages.
     """
-    scriptype_paths = collections.defaultdict(list)
+    scriptype_paths = collections.defaultdict(set)
     for root, subdirs, files in os.walk(root):
-        subdirs[:] = [
-            d for d in subdirs
-            if not d.startswith(EXCLUDE_PATTERNS)
-            if '__init__.py' not in os.listdir(os.path.join(root, d))
-        ]
 
+        # Filter subdirs
+        tmpdir = []
+        for i in subdirs:
+            if i.startswith(EXCLUDE_PATTERNS):
+                continue
+            if '__init__.py' in os.listdir(os.path.join(root, i)):
+                scriptype_paths['python'].add(root)
+                continue
+            tmpdir.append(i)
+        subdirs[:] = tmpdir
+
+        # If files with extension exists add to right source type.
         if ext_exists('.py', files):
-            scriptype_paths['python'].append(root)
+            scriptype_paths['python'].add(root)
         if ext_exists('.mel', files):
-            scriptype_paths['mel'].append(root)
+            scriptype_paths['mel'].add(root)
     return scriptype_paths
 
 
