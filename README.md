@@ -1,29 +1,36 @@
-===================
 Maya Dynamic Import
 ===================
 
 I was tired of constantly having to manage my paths when creating directory
-structures for my scripts. This frustration inspired *mdynaimport*.
+structures for my scripts. This frustration inspired *dynaimport*.
 
-mdynaimport dynamically import all paths it finds from given starting
+dynaimport dynamically import all paths it finds from given starting
 point. It support both python and mel paths.
 
 
 Installation
 ------------
 
-Put **mdynaimport.py** in a script directory already on mayas PYTHONPATH. For
+Put **dynaimport.py** in a script directory already on mayas PYTHONPATH. For
 convenience I place it in: ``c:\users\<username>\Documents\maya\script``.
 This ensures that it will just work for all different maya versions.
 
-Then you just place the **userSetup.py** in the directory you want to
-dynamically import. If you already have a userSetup in place just add the
-below code to it:
+Then place the **userSetup.py** provided in the directory you want to
+dynamically import. There can be several of the same *userSetup.py* at
+different location. As long as the path you put it in is in the *PYTHONPATH*
+maya will try to execute the *userSetup*.
 
-.. code:: python
+If you already have a *userSetup* in place then paste the following at the
+top of userSetup.
 
-    import mdynaimport
-    mdynaimport.parse_paths()
+```python
+    import dynaimport
+    dynaimport.parse_paths()
+```
+
+**This is important**, if you try to dynamically import
+a path and launch a script but this happens before dynaimport the script
+will not execute until you try to launch it again inside of maya.
 
 
 Usage
@@ -32,18 +39,16 @@ Usage
 I prefer not to mix mel and python scripts, to keep it clear and easy to
 find I use a file structure as bellow:
 
-::
-
     scripts\
         MEL\
         PYTHON\
         userSetup.py
-        mdynaimport.py
+        dynaimport.py
 
 
-This will let mdynaimport separate the mel paths from the python paths.
+This will let dynaimport separate the mel paths from the python paths.
 
-This is **optional**, mdynaimport will determine what kind of path it is by
+This is **optional**, dynaimport will determine what kind of path it is by
 looking at available extensions in a directory. This is just how I prefer to
 have it setup.
 
@@ -51,7 +56,7 @@ have it setup.
 Custom Paths, Ignore patterns and Icons
 ---------------------------------------
 
-Close to the top in the **mdynaimport.py** file you will find these variables:
+Close to the top in the **dynaimport.py** file you will find these variables:
 
 .. code:: python
 
