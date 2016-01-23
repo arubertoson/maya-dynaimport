@@ -107,8 +107,11 @@ def get_source_paths():
     Return valid paths from __file__ dir, PYENV and MELENV.
     """
     script_paths = set()
-    script_paths.update(filter(None, os.environ.get(PYENV).split(os.pathsep)))
-    script_paths.update(filter(None, os.environ.get(MELENV).split(os.pathsep)))
+    try:
+        script_paths.update(filter(None, os.environ.get(PYENV).split(os.pathsep)))
+        script_paths.update(filter(None, os.environ.get(MELENV).split(os.pathsep)))
+    except AttributeError:
+        logger.debug('No custom environ variables set.')
 
     cwd = os.path.dirname(os.path.abspath(__file__))
     for each in os.listdir(cwd):
